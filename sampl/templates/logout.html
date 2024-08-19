@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="container mt-5">
+        <h2 class="logout-heading">Log Out</h2>
+        <p>Are you sure you want to log out?</p>
+        <form method="POST" action="{{ url_for('logout') }}">
+            <button type="submit" class="btn btn-primary btn-danger">Yes, Log Out</button>
+            <a href="{{ url_for('home') }}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+{% endblock content %}

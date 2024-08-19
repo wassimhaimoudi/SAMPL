@@ -1,0 +1,13 @@
+venv/
+misc/
+instance/
+__pychace__/
+*.csv
+rmdb
+sampl/static/assets/*
+*.txt
+# unignore the requirements file
+!requirements.txt
+
+*.pyc
+*.log

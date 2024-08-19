@@ -1,0 +1,103 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Main Content Area -->
+        <div class="col-lg-9 col-md-8 col-sm-12">
+            <h1 class="lesson-title">Introduction <em>to</em> <strong>Sound Waves</strong> <em>and</em> <strong>Oscillators</strong></h1>
+            
+            <section id="what-is-sound" class="mb-5">
+                <h4>What is Sound?</h4>
+                <p>Sound is what we hear. It's made by things that vibrate or shake.</p>
+                <p>When something vibrates, it pushes and pulls the air around it. 
+                This creates invisible waves in the air that travel to our ears. 
+                We can draw these waves on paper or a computer screen like this</p>
+                <div class="sinewave-animation">
+                    <canvas id="sineCanvas"></canvas>
+                <p>These drawings are called "Waveforms". They show us what sound looks like if we
+                could see it.
+                Waveforms have two main parts. The first is called the amplitude, or how tall 
+                the wave is (this shows how loud the sound is). The second is called the frequency 
+                of the wave, or how often the wave goes up and down (this shows the pitch 
+                or the tone of the sound).</p>
+                <p>Music software and audio editors such as <a href="https://en.wikipedia.org/wiki/Digital_audio_workstation">DAW</a> often shows these waveforms. <br>
+                They help us see what's happening in a recording without having to listen to it. I will give you a great example that is analog to Sound; Think of a waveform like a picture of sound. Just as a photograph captures what you see, a waveform captures what you hear.
+                </p>
+            </section>
+            <p> Switch the Play/Pause Sound button bellow to to hear the waveform drawn above in real-time.</p>
+            <button id="play-sound">Play/Pause Sound</button>
+
+            <section id="frequency-pitch" class="mb-5 text-center">
+                <h4>Frequency and Pitch</h4>
+                <p>Adjust the frequency using the slider below:</p>
+                <div class="vertical-slider-container">
+                    <input type="range" id="frequency-slider" class="vertical-slider" min="20" max="20000" value="440" orient="vertical">
+                    <label for="frequency-slider" class="form-label mt-2">Frequency: <span id="frequency-value">440</span> Hz</label>
+                </div>
+            </section>
+
+            <section id="amplitude-volume" class="mb-5 text-center">
+                <h4>Amplitude and Volume</h4>
+                <div class="vertical-slider-container">
+                    <input type="range" id="amplitude-slider" class="vertical-slider" min="0" max="1" step="0.01" value="0.5" orient="vertical">
+                    <label for="amplitude-slider" class="form-label mt-2">Amplitude: <span id="amplitude-value">0.5</span></label>
+                </div>
+            </section>
+            <!--<section id="frequency-pitch" class="mb-5 text-center">
+                <h4>Frequency and Pitch</h4>
+                <p>Adjust the frequency using the slider below:</p>
+                <input type="range" id="frequency-slider" class="form-range custom-frequency-slider mx-auto" min="20" max="20000" value="440">
+                <label for="frequency-slider" class="form-label mt-2">Frequency: <span id="frequency-value">440</span> Hz</label>
+            </section>
+
+            <section id="amplitude-volume" class="mb-5">
+                <h4>Amplitude and Volume</h4>
+                <div class="volume-fader-container mx-auto">
+                    <input type="range" id="amplitude-slider" class="volume-fader" min="0" max="1" step="0.01" value="0.5">
+                </div>
+                <label for="amplitude-slider" class="form-label mt-2 text-center d-block">Amplitude: <span id="amplitude-value">0.5</span></label>
+            </section>
+            -->
+
+            <!-- ><section id="simple-synthesizer" class="mb-5">
+                <h4>Simple Synthesizer</h4>
+            </section> -->
+
+            <section id="quiz" class="mb-5">
+                <h4>Review Quiz</h4>
+                <!-- Add your quiz questions here -->
+                <p>Time for a Review Quizz! Click <a href="{{ url_for('quiz') }}">here</a> to pass the quizz.</p>
+            </section>
+            <section id="next-steps" class="mb-5">
+                <h4>Next Steps</h4>
+                <p>In the next lesson, we'll explore envelopes and filters!(Comming Soon)</p>
+            </section>
+        </div>
+
+        <!-- Right Sidebar -->
+        <div class="col-lg-3 col-md-4 col-sm-12">
+            <div class="position-sticky" style="top: 20px;">
+                <h4 class="mb-4">Side Bar</h4>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link text-primary" href="#what-is-sound">What is Sound?</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-primary" href="#oscillators">Frequency And Pitch</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-primary" href="#waveforms">Amplitude And Volume</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-primary" href="#quiz">Review Quiz</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-primary" href="#next-steps">Next Steps</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

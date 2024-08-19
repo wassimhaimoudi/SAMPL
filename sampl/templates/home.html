@@ -1,0 +1,46 @@
+{% extends 'layout.html' %}
+{% block content %}
+<!-- Top section -->
+<section class="d-flex justify-content-center align-items-center text-center py-5 my-5">
+    <div class="container">
+        <h1 class="home-title">Welcome <em>to</em> <strong>SAMPL</strong></h1>
+        <p><strong>SAMPL</strong> is your interactive platform for learning the fundamentals of <strong>Electronic Music Synthesis</strong> and <strong>Sound Design</strong>. Dive into our comprehensive lessons, practice with digital synthesizers, and master the art of creating unique sounds.</p>
+    </div>
+</section>
+
+<!-- Middle section with sliding columns -->
+<section class="d-flex justify-content-center align-items-center text-center py-5 my-5">
+    <div class="container">
+        <h2 class="home-title">Why <em>Choose</em> <strong>SAMPL</strong>?</h2>
+        <br>
+        <div class="row justify-content-center">
+            <!-- Left Column -->
+            <div class="col-md-5 animate-slide-left hidden mb-4">
+                <h3><em>Interactive Lessons</em></h3>
+                <p>Engage with hands-on tutorials and real-time <strong>Audio Synthesis</strong>.</p>
+            </div>
+            <div class="col-md-5 animate-slide-right hidden mb-4">
+                <h3><em>Immersive Experience</em></h3>
+                <p>Explore an interactive and immersive environment designed to make learning music synthesis fun and engaging.</p>
+            </div>
+            <!-- Second Row -->
+            <div class="col-md-5 animate-slide-left hidden mb-4">
+                <h3><em>Progress Tracking</em></h3>
+                <p>Monitor your learning journey and track your achievements.</p>
+            </div>
+            <div class="col-md-5 animate-slide-right hidden mb-4">
+                <h3><em>Community Support</em></h3>
+                <p>Join a community of fellow learners and share your creations.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Bottom section -->
+<section class="d-flex justify-content-center align-items-center text-center py-5 my-5">
+    <div class="container">
+        <h2>Ready <em>to</em> <b>Start</b>?</h2>
+        <p>Get started with our <a href="{{ url_for('lessons') }}">introductory lessons</a> and begin your journey into the world of music synthesis. Whether you're a beginner or an advanced user, <strong>SAMPL</strong> has something for everyone. <a href="{{ url_for('register') }}">Sign up</a> today and start learning!</p>
+    </div>
+</section>
+{% endblock content %}

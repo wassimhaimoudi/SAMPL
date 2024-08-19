@@ -1,0 +1,47 @@
+{% extends 'layout.html' %}
+{% block content %}
+<section>
+    <div>
+        <h2>Quiz Time!</h2>
+    </div>
+    <div>
+        <form method='POST' action="/lessons/quiz/">
+            <!-- First question -->
+            <div>
+                <ul>
+                    <li><label>What is sound made of?</label></li>
+                    <li><input type="radio" name=q1 value="a">Light</li>
+                    <li><input type="radio" name=q1 value="b">Vibrations</li>
+                    <li><input type="radio" name=q1 value="c">Electrical signals</li>
+                    <li><input type="radio" name=q1 value="d">Chemical composition of the air</li>
+                </ul>
+            </div>
+            <!-- Second qestion -->
+            <div>
+            <!--<label>Select all characteristics that apply to sound waves&#58;</label><br>-->
+                <ul>
+                    <li>
+                        <label>Which of the following is a characteristic of sound&#58;<i>&#40;Select all correct answers&#41;</i></label>
+                    </li>
+                    <li><input type="checkbox" name="q2_a" value="Amplitude">Amplitude</li>
+                    <li><input type="checkbox" name="q2_b" value="Color">Color</li>
+                    <li><input type="checkbox" name="q2_c" value="Pitch">Pitch</li>
+                    <li><input type="checkbox" name="q2_d" value="Taste">Taste</li>
+                    <li><input type="checkbox" name="q2_e" value="Phase">Phase</li>
+                </ul>
+            </div>
+            <div>
+                <ul>
+                    <li><input type="radio" name="q3" value="a">Amplitude</li>
+                    <li><input type="radio" name="q3" value="b">Frequency</li>
+                    <li><input type="radio" name="q3" value="c">Waveform shape</li>
+                    <li><input type="radio" name="q3" value="d">The act of throwing the baseball toward home plate to start a baseball play</li>
+                </ul>
+            </div>
+            <div>
+                <button type="submit">Answer</button>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}
