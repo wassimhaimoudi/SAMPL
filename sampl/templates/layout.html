@@ -46,7 +46,7 @@
             </nav>
             </header> -->
             <header class="site-header">
-                <nav class="navbar navbar-expand-md navbar-light bg-steel fixed-top">
+                <!--<nav class="navbar navbar-expand-md navbar-light bg-steel fixed-top">
                     <div class="container">
                         <a class="navbar-brand" href="/">
                             <b>SAMPL</b>
@@ -55,7 +55,6 @@
                             <span class="navbar-toggler-icon"></span>
                         </button>
                         <div class="collapse navbar-collapse" id="navbarToggle">
-                            <!-- Navbar Side -->
                             <div class="navbar-nav ml-auto">
                                 <a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a>
                                 <a class="nav-item nav-link" href="{{ url_for('about') }}">About</a>
@@ -69,7 +68,8 @@
                             </div>
                         </div>
                     </div>
-                </nav>
+		</nav> -->
+		{% include 'navbar.html' %}
             </header>
             <main role="main" class="container">
                 <section class="d-flex justify-content-center align-items-center">
