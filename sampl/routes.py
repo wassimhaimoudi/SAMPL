@@ -10,13 +10,25 @@ from flask_login import (login_user, current_user,
         logout_user, login_required)
 from sampl import app, db, bcrypt, mail, cache, timeout
 from sampl.models import User, Lesson, Comment
-from sampl.forms import (RegistrationForm, LoginForm,
+from sampl.forms import (SearchForm, RegistrationForm, LoginForm,
         UpdateAccountForm)
 from itertools import compress
 
+#pass form to navbar
+@app.context_processor
+def layout():
+    form = SearchForm()
+    return dict(form=form)
+
+@app.route('/search', methods=['POST'])
+def search():
+    form = SearchForm()
+    if form.validate_on_submit():
+        searched = form.searched.data
+        return render_template('search.html', form=form, searched=searched)
+
 @app.route("/")
 @app.route("/home/")
-@cache.memoize(timeout=timeout)
 def home():
     """ Home page route
     """

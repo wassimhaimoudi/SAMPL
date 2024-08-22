@@ -12,6 +12,10 @@ from wtforms import (StringField, PasswordField,
 from wtforms.fields import DateField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 
+class SearchForm(FlaskForm):
+    searched = StringField('Searched', validators=[DataRequired()])
+    submit = SubmitField("Submit")
+
 class RegistrationForm(FlaskForm):
     """ Defines the form entity for the registration page.
     """
