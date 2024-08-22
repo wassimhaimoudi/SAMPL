@@ -35,7 +35,6 @@ def home():
     return render_template('home.html', title="Home")
 
 @app.route("/about/")
-@cache.memoize(timeout=timeout)
 def about():
     """ About page route
     """
@@ -57,7 +56,6 @@ def login():
     return render_template('login.html', title="Login", form=form)
 
 @app.route("/register/", methods=['GET', 'POST'])
-@cache.memoize(timeout=timeout)
 def register():
     """ Registeration route
     """
@@ -90,7 +88,6 @@ def save_picture(form_picture):
 
 
 @app.route('/account/', methods=['GET', 'POST'])
-@cache.memoize(timeout=timeout)
 @login_required
 def account():
     """ Account route
