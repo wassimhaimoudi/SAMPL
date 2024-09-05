@@ -35,15 +35,107 @@
                     <label for="frequency-slider" class="form-label mt-2">Frequency: <span id="frequency-value">440</span> Hz</label>
                 </div>
             </section>
+	    <h1>Sine Wave Volume Control</h1>
+    <input type="range" id="slider" min="0" max="1" step="0.01" value="0.5">
+    <p id="volume-display">Volume: 0.50</p>
 
-            <section id="amplitude-volume" class="mb-5 text-center">
-                <h4>Amplitude and Volume</h4>
-                <div class="vertical-slider-container">
-                    <input type="range" id="amplitude-slider" class="vertical-slider" min="0" max="1" step="0.01" value="0.5" orient="vertical">
-                    <label for="amplitude-slider" class="form-label mt-2">Amplitude: <span id="amplitude-value">0.5</span></label>
-                </div>
-            </section>
-            <!--<section id="frequency-pitch" class="mb-5 text-center">
+    <script>
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const slider = document.getElementById('slider');
+        const volumeDisplay = document.getElementById('volume-display');
+        let oscillator = null;
+        let gainNode = null;
+
+        slider.addEventListener('mousedown', startSound);
+        slider.addEventListener('mouseup', stopSound);
+        slider.addEventListener('input', updateVolume);
+
+        function startSound() {
+            if (!oscillator) {
+                oscillator = audioContext.createOscillator();
+                gainNode = audioContext.createGain();
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
+                oscillator.start();
+                updateVolume();
+            }
+        }
+
+        function stopSound() {
+            if (oscillator) {
+                oscillator.stop();
+                oscillator.disconnect();
+                oscillator = null;
+                gainNode.disconnect();
+                gainNode = null;
+            }
+        }
+
+        function updateVolume() {
+            const volume = parseFloat(slider.value);
+            if (gainNode) {
+                gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
+            }
+            volumeDisplay.textContent = `Volume: ${volume.toFixed(2)}`;
+        }
+    </script>
+    <h1>Sine Wave Frequency Control</h1>
+    <input type="range" id="slider" min="20" max="2000" step="1" value="440">
+    <p id="frequency-display">Frequency: 440 Hz</p>
+    <button id="startButton">Start Sound</button>
+    <button id="stopButton">Stop Sound</button>
+
+    <script>
+        let audioContext;
+        let oscillator;
+        const slider = document.getElementById('slider');
+        const frequencyDisplay = document.getElementById('frequency-display');
+        const startButton = document.getElementById('startButton');
+        const stopButton = document.getElementById('stopButton');
+
+        startButton.addEventListener('click', startSound);
+        stopButton.addEventListener('click', stopSound);
+        slider.addEventListener('input', updateFrequency);
+
+        function startSound() {
+            try {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                oscillator = audioContext.createOscillator();
+                oscillator.connect(audioContext.destination);
+                oscillator.type = 'sine';
+                updateFrequency();
+                oscillator.start();
+                console.log('Sound started');
+            } catch (error) {
+                console.error('Error starting sound:', error);
+            }
+        }
+
+        function stopSound() {
+            try {
+                if (oscillator) {
+                    oscillator.stop();
+                    oscillator.disconnect();
+                    oscillator = null;
+                    console.log('Sound stopped');
+                }
+            } catch (error) {
+                console.error('Error stopping sound:', error);
+            }
+        }
+
+        function updateFrequency() {
+            const frequency = parseInt(slider.value);
+            if (oscillator) {
+                oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+                console.log('Frequency updated to:', frequency);
+            }
+            frequencyDisplay.textContent = `Frequency: ${frequency} Hz`;
+        }
+    </script>
+                        <!--<section id="frequency-pitch" class="mb-5 text-center">
                 <h4>Frequency and Pitch</h4>
                 <p>Adjust the frequency using the slider below:</p>
                 <input type="range" id="frequency-slider" class="form-range custom-frequency-slider mx-auto" min="20" max="20000" value="440">
