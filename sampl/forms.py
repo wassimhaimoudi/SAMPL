@@ -7,13 +7,16 @@ from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
 from sampl import bcrypt
 from sampl.models import User
-from wtforms import (StringField, PasswordField,
+from wtforms import (StringField, PasswordField, TextAreaField,
         BooleanField, RadioField, SubmitField)
 from wtforms.fields import DateField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 
-class SearchForm(FlaskForm):
-    searched = StringField('Searched', validators=[DataRequired()])
+class CommentForm(FlaskForm):
+    """ Defines the form entity for adding comments
+    """
+    content = TextAreaField("Add Comment",
+            validators=[DataRequired()])
     submit = SubmitField("Submit")
 
 class RegistrationForm(FlaskForm):

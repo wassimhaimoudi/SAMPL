@@ -21,33 +21,37 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f'User("{self.username}, "{self.email}", "{self.image_file}")'
-    '''def get_reset_token(self, expires_sec=1800):
-        s = Serializer(app.config['SECRET_KEY'], expires_sec)
-        return s.dumps({'user_id': self.id}).decode('utf-8')
-
-    @staticmethod
-    def verify_reset_token(token):
-        s = Serializer(app.config['SECRET_KEY'])
-        try:
-            user_id = s.loads(token).get('user_id')
-        except Exception:
-            return None
-        return User.query.get(user_id)
-        '''
 
 class Comment(db.Model):
+    ''' Represents a comment
+    '''
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-"""
-    lesson_id = db.Column(db.Integer, db.ForeignKey('lesson.id'), nullable=False)
+    user_id = db.Column(
+            db.Integer,
+            db.ForeignKey('user.id'),
+            nullable=False)
+    '''lesson_id = db.Column(
+            db.Integer,
+            db.ForeignKey('lesson.id'),
+            nullable=False)
+    '''
     content = db.Column(db.Text, nullable=False)
-    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    parent_id = db.Column(db.Integer, ForeignKey('comment.id'))
-    replies = db.relationship('Comment', backref=db.backref('parent', remote_side=[id]), lazy="dynamic")
-"""
-
+    timestamp = db.Column(
+            db.DateTime,
+            nullable=False,
+            default=datetime.utcnow)
+    '''parent_id = db.Column(db.Integer, ForeignKey('comment.id'))
+    replies = db.relationship(
+            'Comment',
+            backref=db.backref('parent', remote_side=[id]),
+            lazy="dynamic")
+    '''
 class Lesson(db.Model):
+    ''' Represents a lesson
+    '''
+    # Find a way to identify lessons with an id
     id = db.Column(db.Integer, primary_key=True)
+    static_file = db.Column(db.String(32), nullable=False)
 """
     content = db.Column(db.Text, unique=True, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)

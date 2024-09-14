@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+{% block content %}
+<section>
+	<form method="POST" action="">
+	{{ form.hidden_tag() }}
+		<fieldset>
+			<label>Add Comment</label>
+			{{ form.content }}
+			{{ form.submit }}
+		</fieldset>
+	</form>
+
+	{% for comment in comments %}
+	<div>
+		<p><small> {{comment.timestamp}}</small></p>
+		<p>{{ comment.content }}</p>
+	</div>
+	{% endfor %}
+
+</section>
+{% endblock content %}

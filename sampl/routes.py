@@ -10,22 +10,8 @@ from flask_login import (login_user, current_user,
         logout_user, login_required)
 from sampl import app, db, bcrypt, mail, cache, timeout
 from sampl.models import User, Lesson, Comment
-from sampl.forms import (SearchForm, RegistrationForm, LoginForm,
+from sampl.forms import (CommentForm, RegistrationForm, LoginForm,
         UpdateAccountForm)
-from itertools import compress
-
-#pass form to navbar
-@app.context_processor
-def layout():
-    form = SearchForm()
-    return dict(form=form)
-
-@app.route('/search', methods=['POST'])
-def search():
-    form = SearchForm()
-    if form.validate_on_submit():
-        searched = form.searched.data
-        return render_template('search.html', form=form, searched=searched)
 
 @app.route("/")
 @app.route("/home/")
@@ -161,6 +147,37 @@ def quiz():
             flash(f"Your score is too low. But it's ok, you can catch on and retake the quiz!", 'danger')
         return redirect(url_for('quiz'))
     return render_template('quiz.html', title='Quiz Time')
+
+@login_required
+@app.route('/home/lessons/add_comment', methods=['GET', 'POST'])
+def add_comments():
+    ''' Comments route
+    - Make a comments page
+    - Make a link in the lessons page for the comments page and make this the route for it
+    '''
+    form = CommentForm()
+
+    if form.validate_on_submit():
+        comment = Comment(
+            content=form.content.data,
+            user_id=current_user.id
+        )
+        db.session.add(comment)
+        db.session.commit()
+        flash('Your comment has been added', 'success')
+        return redirect(url_for('add_comments'))
+
+    # Queries all the comments available since we only have one lesson for now
+    comments = Comment.query.order_by(Comment.id.desc()).all()
+
+    # Corrected User query: Fetch users who have made comments
+    users = User.query.join(Comment).filter(Comment.user_id.isnot(None)).all()
+
+    if not comments:
+        flash('No comments available', 'info')
+
+    return render_template('comments.html', title='Add Comment', form=form, comments=comments, users=users)
+
 
 @app.route("/logout", methods=['GET', 'POST'])
 @cache.memoize(timeout=timeout)
