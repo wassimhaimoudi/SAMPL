@@ -38,7 +38,7 @@ def login():
             next_page = request.args.get('next')
             flash(f'You have been Logged in!', 'success')
             return redirect(next_page) if next_page else redirect(url_for("home"))
-            flash(f'Login unsuccessful. Please check email and password', 'danger')
+        flash(f'Login unsuccessful. Please check email and password', 'danger')
     return render_template('login.html', title="Login", form=form)
 
 @app.route("/register/", methods=['GET', 'POST'])
@@ -148,35 +148,37 @@ def quiz():
         return redirect(url_for('quiz'))
     return render_template('quiz.html', title='Quiz Time')
 
-@login_required
 @app.route('/home/lessons/add_comment', methods=['GET', 'POST'])
 def add_comments():
     ''' Comments route
-    - Make a comments page
+    - Make a comments page (check)
     - Make a link in the lessons page for the comments page and make this the route for it
     '''
     form = CommentForm()
+    if not current_user.is_authenticated and request.method == 'POST':
+        flash('You have to log in in order to engage and add comments', 'warning')
+        return redirect(url_for('login'))
 
+    # fetch users who have made comments
     if form.validate_on_submit():
+        # Create a comment row in the database if user is authenticated else redirect user to login page
         comment = Comment(
-            content=form.content.data,
-            user_id=current_user.id
-        )
+                    content=form.content.data,
+                    user_id=current_user.id)
         db.session.add(comment)
         db.session.commit()
         flash('Your comment has been added', 'success')
         return redirect(url_for('add_comments'))
-
-    # Queries all the comments available since we only have one lesson for now
-    comments = Comment.query.order_by(Comment.id.desc()).all()
-
-    # Corrected User query: Fetch users who have made comments
-    users = User.query.join(Comment).filter(Comment.user_id.isnot(None)).all()
-
-    if not comments:
+    
+    users_with_comments = db.session.query(User).join(User.comments).all()
+    if not users_with_comments:
         flash('No comments available', 'info')
 
-    return render_template('comments.html', title='Add Comment', form=form, comments=comments, users=users)
+    return render_template(
+            'comments.html',
+            title='Add Comment',
+            form=form,
+            users_with_comments=users_with_comments)
 
 
 @app.route("/logout", methods=['GET', 'POST'])

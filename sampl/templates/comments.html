@@ -1,25 +1,36 @@
 {% extends 'layout.html' %}
 {% block content %}
+<style>
+	h5 {
+		margin-bottom: 0px;
+	}
+</style>
 <section class="container mt-5">
     <div class="row">
         <div class="col-md-8 offset-md-2">
             <form method="POST" action="" class="mb-4">
                 {{ form.hidden_tag() }}
                 <fieldset class="form-group">
-                    <label for="{{ form.content.id }}" class="form-label">Add Comment</label>
-                    {{ form.content(class="form-control mb-2") }}
+                    <label class="form-label fw-bold">Add Comment</label>
+                    {{ form.content(class="form-control mb-3") }}
                     {{ form.submit(class="btn btn-primary") }}
                 </fieldset>
             </form>
 
-            {% for comment in comments %}
-            <div class="card mb-3">
-                <div class="card-body">
-                    <p class="card-text">{{ comment.content }}</p>
-                    <p class="card-text"><small class="text-muted">{{ comment.timestamp }}</small></p>
+            <div class="mb-4">
+                <label class="form-label fw-bold">User Comments</label>
+                <div class="list-group">
+                    {% for user in users_with_comments %}
+                    <div class="list-group-item">
+                        {% for comment in user.comments %}
+                        <h5 >{{ user.username }}</h5>
+                        <small class="text-muted">Posted on: {{ comment.timestamp.strftime('%Y-%m-%d at %H:%M') }}</small>
+                        <p class="mb-2">{{ comment.content }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
-            {% endfor %}
         </div>
     </div>
 </section>
