@@ -1,21 +1,26 @@
 {% extends 'layout.html' %}
 {% block content %}
-<section>
-	<form method="POST" action="">
-	{{ form.hidden_tag() }}
-		<fieldset>
-			<label>Add Comment</label>
-			{{ form.content }}
-			{{ form.submit }}
-		</fieldset>
-	</form>
+<section class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <form method="POST" action="" class="mb-4">
+                {{ form.hidden_tag() }}
+                <fieldset class="form-group">
+                    <label for="{{ form.content.id }}" class="form-label">Add Comment</label>
+                    {{ form.content(class="form-control mb-2") }}
+                    {{ form.submit(class="btn btn-primary") }}
+                </fieldset>
+            </form>
 
-	{% for comment in comments %}
-	<div>
-		<p><small> {{comment.timestamp}}</small></p>
-		<p>{{ comment.content }}</p>
-	</div>
-	{% endfor %}
-
+            {% for comment in comments %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <p class="card-text">{{ comment.content }}</p>
+                    <p class="card-text"><small class="text-muted">{{ comment.timestamp }}</small></p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </section>
 {% endblock content %}

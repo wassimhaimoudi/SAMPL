@@ -180,7 +180,6 @@ def add_comments():
 
 
 @app.route("/logout", methods=['GET', 'POST'])
-@cache.memoize(timeout=timeout)
 @login_required
 def logout():
     """ Logout route

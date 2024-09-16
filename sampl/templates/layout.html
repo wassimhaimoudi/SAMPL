@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" class="h-100">
     <head>
         <!-- Metadata about the page -->
         <meta name="description" content="A platform for learning music synthesis">
@@ -8,11 +8,9 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
         <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
         {% if title %}
@@ -20,60 +18,30 @@
         {% else %}
         <title>SAMPL</title>
         {% endif %}
+        <style>
+            body {
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+            }
+            main {
+                flex: 1 0 auto;
+            }
+            .footer {
+                flex-shrink: 0;
+                height: 60px; /* Adjust this value to set your desired footer height */
+                line-height: 60px; /* This centers the text vertically */
+            }
+        </style>
     </head>
-
-    <!-- Body -->
-    <body>
-        <!--<header class="site-header">
-            <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
-            <div class="container">
-            <a class="navbar-brand mr-4" href="/">
-            <b>SAMPL</b>
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarToggle">
-            <div class="navbar-nav ml-auto">
-            <a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a>
-            <a class="nav-item nav-link" href="{{ url_for('about') }}">About</a>
-
-            <a class="nav-item nav-link" href="{{ url_for('login')}}">Login</a>
-            <a class="nav-item nav-link" href="{{ url_for('register')}}">Register</a>
-            </div>
-            </div>
-            </div>
-            </nav>
-            </header> -->
-            <header class="site-header">
-                <!--<nav class="navbar navbar-expand-md navbar-light bg-steel fixed-top">
-                    <div class="container">
-                        <a class="navbar-brand" href="/">
-                            <b>SAMPL</b>
-                        </a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarToggle">
-                            <div class="navbar-nav ml-auto">
-                                <a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a>
-                                <a class="nav-item nav-link" href="{{ url_for('about') }}">About</a>
-                                {% if current_user.is_authenticated %}
-                                <a class="nav-item nav-link" href="{{ url_for('account')}}">Account</a>
-                                    <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>
-                                {% else %}
-                                    <a class="nav-item nav-link" href="{{ url_for('login')}}">Login</a>
-                                    <a class="nav-item nav-link" href="{{ url_for('register')}}">Register</a>
-                                {% endif%}
-                            </div>
-                        </div>
-                    </div>
-		</nav> -->
-		{% include 'navbar.html' %}
-            </header>
-            <main role="main" class="container">
-                <section class="d-flex justify-content-center align-items-center">
-                    <div>
+    <body class="d-flex flex-column h-100">
+        <header class="site-header">
+            {% include 'navbar.html' %}
+        </header>
+        <main role="main" class="flex-shrink-0">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 col-md-10" style="max-width: 800px;">
                         {% with messages = get_flashed_messages(with_categories=true) %}
                             {% if messages %}
                                 {% for category, message in messages %}
@@ -86,40 +54,26 @@
                         <!-- Block Content -->
                         {% block content %}{% endblock content %}
                     </div>
-                </section>
-                <!--
-                    <div class="col-md-4">
-                    <div class="content-section">
-                    <h3>Our Sidebar</h3>
-                    <p class="text-muted">Lorem ipsum.
-                    <ul class="list-group">
-                    <li class="list-group-item list-group-item-light">Latest Lessons</li>
-                    <li class="list-group-item list-group-item-light">Announcements</li>
-                    <li class="list-group-item list-group-item-light">Calendars</li>
-                    <li class="list-group-item list-group-item-light">etc</li>
-                    </ul>
-                    </p>
-                    </div>
-                    </div>
-                -->
-            </main>
-            <footer class="footer">
-                <div class="container">
-                    <p>&copy; 2024 <b>SAMPL</b>. All rights reserved.</p>
                 </div>
-            </footer>
-            <!-- Optional JavaScript -->
-            <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-            <script src="{{ url_for('static', filename='js/show_password.js') }}"></script>
-            <script src="{{ url_for('static', filename='js/date_picker.js') }}"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
-            <script src="{{ url_for('static', filename='js/slideAnimation.js') }}"></script>
-            <script src="{{ url_for('static', filename='js/sliders.js')}}"></script>
-            <script src="{{url_for('static', filename='js/sound.js')}}"></script>
-            <script src="{{url_for('static', filename='js/sineAnimation.js')}}"></script>
-	    <script src="{{url_for('static', filename='js/amplitude.js')}}"></script>
+            </div>
+        </main>
+        <footer class="footer mt-auto py-3">
+            <div class="container text-center">
+                <span class="text-muted">&copy; 2024 <b>SAMPL</b>. All rights reserved.</span>
+            </div>
+        </footer>
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="{{ url_for('static', filename='js/show_password.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/date_picker.js') }}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
+        <script src="{{ url_for('static', filename='js/slideAnimation.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/sliders.js')}}"></script>
+        <script src="{{url_for('static', filename='js/sound.js')}}"></script>
+        <script src="{{url_for('static', filename='js/sineAnimation.js')}}"></script>
+        <script src="{{url_for('static', filename='js/amplitude.js')}}"></script>
     </body>
 </html>
