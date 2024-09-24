@@ -11,159 +11,58 @@
                 <p>Sound is what we hear. It's made by things that vibrate or shake.</p>
                 <p>When something vibrates, it pushes and pulls the air around it. 
                 This creates invisible waves in the air that travel to our ears. 
-                We can draw these waves on paper or a computer screen like this</p>
+                We can draw these waves on paper or a computer screen like this:</p>
                 <div class="sinewave-animation">
                     <canvas id="sineCanvas"></canvas>
+                </div>
                 <p>These drawings are called "Waveforms". They show us what sound looks like if we
-                could see it.
-                Waveforms have two main parts. The first is called the amplitude, or how tall 
+                could see it.</p>
+                <p>Waveforms have two main parts. The first is called the amplitude, or how tall 
                 the wave is (this shows how loud the sound is). The second is called the frequency 
                 of the wave, or how often the wave goes up and down (this shows the pitch 
                 or the tone of the sound).</p>
-                <p>Music software and audio editors such as <a href="https://en.wikipedia.org/wiki/Digital_audio_workstation">DAW</a> often shows these waveforms. <br>
-                They help us see what's happening in a recording without having to listen to it. I will give you a great example that is analog to Sound; Think of a waveform like a picture of sound. Just as a photograph captures what you see, a waveform captures what you hear.
+                <p>Music software and audio editors such as <a href="https://en.wikipedia.org/wiki/Digital_audio_workstation">DAW</a> often show these waveforms. <br>
+                They help us see what's happening in a recording without having to listen to it. Think of a waveform like a picture of sound. Just as a photograph captures what you see, a waveform captures what you hear.
                 </p>
             </section>
-            <p> Switch the Play/Pause Sound button bellow to to hear the waveform drawn above in real-time.</p>
-            <button id="play-sound">Play/Pause Sound</button>
 
-            <section id="frequency-pitch" class="mb-5 text-center">
-                <h4>Frequency and Pitch</h4>
-                <p>Adjust the frequency using the slider below:</p>
-                <div class="vertical-slider-container">
-                    <input type="range" id="frequency-slider" class="vertical-slider" min="20" max="20000" value="440" orient="vertical">
-                    <label for="frequency-slider" class="form-label mt-2">Frequency: <span id="frequency-value">440</span> Hz</label>
+            <section id="interactive-sound" class="mb-5">
+                <h4>Interactive Sound Controls</h4>
+                <p>Use the controls below to interact with sound waves:</p>
+
+                <div id="sine-wave-player" class="mb-4">
+                    <h5>Sine Wave Player</h5>
+                    <button id="play-sound" class="btn btn-primary">Play/Pause Sound</button>
+                </div>
+
+                <div id="volume-control" class="mb-4">
+                    <h5>Volume Control</h5>
+                    <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5" class="form-range">
+                    <p id="volume-display">Volume: 0.50</p>
+                </div>
+
+                <div id="frequency-control" class="mb-4">
+                    <h5>Frequency Control</h5>
+                    <input type="range" id="frequency-slider" min="20" max="2000" step="1" value="440" class="form-range">
+                    <p id="frequency-display">Frequency: 440 Hz</p>
+                    <button id="startButton" class="btn btn-success">Start Sound</button>
+                    <button id="stopButton" class="btn btn-danger">Stop Sound</button>
                 </div>
             </section>
-	    <h1>Sine Wave Volume Control</h1>
-    <input type="range" id="slider" min="0" max="1" step="0.01" value="0.5">
-    <p id="volume-display">Volume: 0.50</p>
-
-    <script>
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        const slider = document.getElementById('slider');
-        const volumeDisplay = document.getElementById('volume-display');
-        let oscillator = null;
-        let gainNode = null;
-
-        slider.addEventListener('mousedown', startSound);
-        slider.addEventListener('mouseup', stopSound);
-        slider.addEventListener('input', updateVolume);
-
-        function startSound() {
-            if (!oscillator) {
-                oscillator = audioContext.createOscillator();
-                gainNode = audioContext.createGain();
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                oscillator.type = 'sine';
-                oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
-                oscillator.start();
-                updateVolume();
-            }
-        }
-
-        function stopSound() {
-            if (oscillator) {
-                oscillator.stop();
-                oscillator.disconnect();
-                oscillator = null;
-                gainNode.disconnect();
-                gainNode = null;
-            }
-        }
-
-        function updateVolume() {
-            const volume = parseFloat(slider.value);
-            if (gainNode) {
-                gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
-            }
-            volumeDisplay.textContent = `Volume: ${volume.toFixed(2)}`;
-        }
-    </script>
-    <h1>Sine Wave Frequency Control</h1>
-    <input type="range" id="slider" min="20" max="2000" step="1" value="440">
-    <p id="frequency-display">Frequency: 440 Hz</p>
-    <button id="startButton">Start Sound</button>
-    <button id="stopButton">Stop Sound</button>
-
-    <script>
-        let audioContext;
-        let oscillator;
-        const slider = document.getElementById('slider');
-        const frequencyDisplay = document.getElementById('frequency-display');
-        const startButton = document.getElementById('startButton');
-        const stopButton = document.getElementById('stopButton');
-
-        startButton.addEventListener('click', startSound);
-        stopButton.addEventListener('click', stopSound);
-        slider.addEventListener('input', updateFrequency);
-
-        function startSound() {
-            try {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                oscillator = audioContext.createOscillator();
-                oscillator.connect(audioContext.destination);
-                oscillator.type = 'sine';
-                updateFrequency();
-                oscillator.start();
-                console.log('Sound started');
-            } catch (error) {
-                console.error('Error starting sound:', error);
-            }
-        }
-
-        function stopSound() {
-            try {
-                if (oscillator) {
-                    oscillator.stop();
-                    oscillator.disconnect();
-                    oscillator = null;
-                    console.log('Sound stopped');
-                }
-            } catch (error) {
-                console.error('Error stopping sound:', error);
-            }
-        }
-
-        function updateFrequency() {
-            const frequency = parseInt(slider.value);
-            if (oscillator) {
-                oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-                console.log('Frequency updated to:', frequency);
-            }
-            frequencyDisplay.textContent = `Frequency: ${frequency} Hz`;
-        }
-    </script>
-                        <!--<section id="frequency-pitch" class="mb-5 text-center">
-                <h4>Frequency and Pitch</h4>
-                <p>Adjust the frequency using the slider below:</p>
-                <input type="range" id="frequency-slider" class="form-range custom-frequency-slider mx-auto" min="20" max="20000" value="440">
-                <label for="frequency-slider" class="form-label mt-2">Frequency: <span id="frequency-value">440</span> Hz</label>
-            </section>
-
-            <section id="amplitude-volume" class="mb-5">
-                <h4>Amplitude and Volume</h4>
-                <div class="volume-fader-container mx-auto">
-                    <input type="range" id="amplitude-slider" class="volume-fader" min="0" max="1" step="0.01" value="0.5">
-                </div>
-                <label for="amplitude-slider" class="form-label mt-2 text-center d-block">Amplitude: <span id="amplitude-value">0.5</span></label>
-            </section>
-            -->
-
-            <!-- ><section id="simple-synthesizer" class="mb-5">
-                <h4>Simple Synthesizer</h4>
-            </section> -->
 
             <section id="quiz" class="mb-5">
                 <h4>Review Quiz</h4>
-                <!-- Add your quiz questions here -->
-                <p>Time for a Review Quizz! Click <a href="{{ url_for('quiz') }}">here</a> to pass the quizz.</p>
+                <p>Time for a Review Quiz! Click <a href="{{ url_for('quiz') }}">here</a> to take the quiz.</p>
             </section>
+
             <section id="next-steps" class="mb-5">
                 <h4>Next Steps</h4>
-                <p>In the next lesson, we'll explore envelopes and filters!(Comming Soon)</p>
+                <p>In the next lesson, we'll explore envelopes and filters! (Coming Soon)</p>
             </section>
+	    <section id="comments" class="mb-5">
+		    <h4>Comments & Feedback</h4>
+		    <p>We read your comments!! We hope you've been enjoying our sound and music lessons! Your thoughts and experiences are incredibly valuable to us, and we'd love to hear from you.<a href="{{url_for('add_comments')}}">Click here to see comments</a></p>
+	    </section>
         </div>
 
         <!-- Right Sidebar -->
@@ -175,10 +74,7 @@
                         <a class="nav-link text-primary" href="#what-is-sound">What is Sound?</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-primary" href="#oscillators">Frequency And Pitch</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-primary" href="#waveforms">Amplitude And Volume</a>
+                        <a class="nav-link text-primary" href="#interactive-sound">Interactive Sound</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-primary" href="#quiz">Review Quiz</a>
@@ -191,5 +87,102 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Global variables
+    let audioContext;
+    let oscillator;
+    let gainNode;
+
+    // DOM elements
+    const sineCanvas = document.getElementById('sineCanvas');
+    const playButton = document.getElementById('play-sound');
+    const volumeSlider = document.getElementById('volume-slider');
+    const volumeDisplay = document.getElementById('volume-display');
+    const frequencySlider = document.getElementById('frequency-slider');
+    const frequencyDisplay = document.getElementById('frequency-display');
+    const startButton = document.getElementById('startButton');
+    const stopButton = document.getElementById('stopButton');
+
+    // Initialize audio context
+    function initAudio() {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        oscillator = audioContext.createOscillator();
+        gainNode = audioContext.createGain();
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        oscillator.type = 'sine';
+        updateFrequency();
+        updateVolume();
+    }
+
+    // Sine wave animation
+    function drawSineWave() {
+        const ctx = sineCanvas.getContext('2d');
+        const width = sineCanvas.width;
+        const height = sineCanvas.height;
+        ctx.clearRect(0, 0, width, height);
+        ctx.beginPath();
+        for (let x = 0; x < width; x++) {
+            const y = height / 2 + Math.sin((x / width) * Math.PI * 2) * (height / 2 - 10);
+            ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+    }
+
+    // Event listeners
+    playButton.addEventListener('click', toggleSound);
+    volumeSlider.addEventListener('input', updateVolume);
+    frequencySlider.addEventListener('input', updateFrequency);
+    startButton.addEventListener('click', startSound);
+    stopButton.addEventListener('click', stopSound);
+
+    // Sound control functions
+    function toggleSound() {
+        if (audioContext && audioContext.state === 'running') {
+            audioContext.suspend();
+        } else if (audioContext && audioContext.state === 'suspended') {
+            audioContext.resume();
+        } else {
+            initAudio();
+            oscillator.start();
+        }
+    }
+
+    function updateVolume() {
+        const volume = parseFloat(volumeSlider.value);
+        if (gainNode) {
+            gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
+        }
+        volumeDisplay.textContent = `Volume: ${volume.toFixed(2)}`;
+    }
+
+    function updateFrequency() {
+        const frequency = parseInt(frequencySlider.value);
+        if (oscillator) {
+            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+        }
+        frequencyDisplay.textContent = `Frequency: ${frequency} Hz`;
+    }
+
+    function startSound() {
+        if (!audioContext) {
+            initAudio();
+        }
+        oscillator.start();
+    }
+
+    function stopSound() {
+        if (oscillator) {
+            oscillator.stop();
+            oscillator = null;
+            gainNode = null;
+            audioContext = null;
+        }
+    }
+
+    // Initialize sine wave animation
+    drawSineWave();
+</script>
 
 {% endblock content %}
